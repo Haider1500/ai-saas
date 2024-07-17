@@ -17,35 +17,35 @@ const tools = [
     label: "Conversation",
     href: "/conversation",
     icon: MessageSquare,
-    color: "bg-violet-500",
+    color: "text-violet-500",
     bgColor: "bg-violet-500/10",
   },
   {
     label: "Music Generation",
     href: "/music",
     icon: Music,
-    color: "bg-emerald-500",
+    color: "text-emerald-500",
     bgColor: "bg-emerald-500/10",
   },
   {
     label: "Image Generation",
     href: "/image",
     icon: ImageIcon,
-    color: "bg-orange-500",
+    color: "text-orange-500",
     bgColor: "bg-orange-500/10",
   },
   {
     label: "Video Generation",
     href: "/video",
     icon: VideoIcon,
-    color: "bg-sky-500",
+    color: "text-sky-500",
     bgColor: "bg-sky-500/10",
   },
   {
     label: "Code Generation",
     href: "/code",
     icon: Code,
-    color: "bg-pink-500",
+    color: "text-pink-500",
     bgColor: "bg-pink-500/10",
   },
 ];
@@ -66,6 +66,7 @@ export default function dashboardPage() {
             <Card
               onClick={() => router.push(tool.href)}
               className="flex border-black/5 items-center justify-between hover:shadow-md transition p-4 cursor-pointer"
+              key={tool.label}
             >
               <div className="flex items-center gap-x-4">
                 <div className={cn("p-2 w-fit rounded-md ", tool.bgColor)}>
