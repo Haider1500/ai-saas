@@ -38,15 +38,15 @@ const tools = [
     label: "Music Generation",
     href: "/music",
     icon: Music,
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-500/10",
+    color: "text-green-500",
+    bgColor: "bg-green-500/10",
   },
   {
     label: "Video Generation",
     href: "/video",
     icon: VideoIcon,
-    color: "text-sky-500",
-    bgColor: "bg-sky-500/10",
+    color: "text-purple-500",
+    bgColor: "bg-purple-500/10",
   },
 ];
 

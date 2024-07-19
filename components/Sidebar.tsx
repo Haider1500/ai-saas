@@ -34,24 +34,24 @@ const routes = [
     label: "Code",
     href: "/code",
     icon: Code,
-    color: "text-orange-500",
+    color: "text-pink-500",
   },
   {
     label: "Image Generation",
     href: "/image",
     icon: ImageIcon,
-    color: "text-pink-500",
-  },
-  {
-    label: "Video Generation",
-    href: "/video",
-    icon: VideoIcon,
     color: "text-orange-500",
   },
   {
     label: "Music Generation",
     href: "/music",
     icon: Music,
+    color: "text-green-500",
+  },
+  {
+    label: "Video Generation",
+    href: "/video",
+    icon: VideoIcon,
     color: "text-purple-500",
   },
   {

@@ -80,7 +80,7 @@ const CodePage = () => {
                     <FormControl className="p-0 m-0">
                       <Input
                         className="border-0 outline-none  focus-visible:ring-0 focus-visible:ring-transparent"
-                        placeholder="Calculate the area of circle?"
+                        placeholder="Create a button using shadcn"
                         {...field}
                         disabled={isLoading}
                       />
