@@ -27,10 +27,12 @@ import {
 } from "@/components/ui/select";
 import { Card, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
+import { useProModal } from "@/app/hooks/use-pro-modal";
 
 const ImagesPage = () => {
   const [images, setImages] = useState<string[]>([]);
   const router = useRouter();
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,7 +55,10 @@ const ImagesPage = () => {
       const urls = response.data.map((image: { url: string }) => image.url);
       setImages(urls);
       form.reset();
-    } catch (error) {
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log(error, "error in sending request");
     } finally {
       router.refresh();

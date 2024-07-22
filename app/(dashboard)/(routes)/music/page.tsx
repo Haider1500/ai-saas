@@ -15,10 +15,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Empty } from "@/components/Empty";
 import { Loading } from "@/components/Loading";
+import { useProModal } from "@/app/hooks/use-pro-modal";
 
 const ConversationPage = () => {
   const [music, setMusic] = useState<string>();
   const router = useRouter();
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,7 +40,10 @@ const ConversationPage = () => {
       setMusic(response.data.audio);
       form.reset();
       console.log(response.data, "data");
-    } catch (error) {
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log(error, "error in sending request");
     } finally {
       router.refresh();

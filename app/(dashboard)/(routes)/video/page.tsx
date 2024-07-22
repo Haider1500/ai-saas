@@ -15,10 +15,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Empty } from "@/components/Empty";
 import { Loading } from "@/components/Loading";
+import { useProModal } from "@/app/hooks/use-pro-modal";
 
 const videoPage = () => {
   const [video, setVideo] = useState<string>();
   const router = useRouter();
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,7 +40,10 @@ const videoPage = () => {
       setVideo(response.data[0]);
       form.reset();
       console.log(response.data[0], "data");
-    } catch (error) {
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log(error, "error in sending request");
     } finally {
       router.refresh();
@@ -68,7 +73,7 @@ const videoPage = () => {
                     <FormControl className="p-0 m-0">
                       <Input
                         className="border-0 outline-none  focus-visible:ring-0 focus-visible:ring-transparent"
-                        placeholder="rock the floor"
+                        placeholder="beach view with sunset"
                         {...field}
                         disabled={isLoading}
                       />

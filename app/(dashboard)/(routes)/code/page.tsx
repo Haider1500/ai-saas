@@ -20,10 +20,12 @@ import { Loading } from "@/components/Loading";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
+import { useProModal } from "@/app/hooks/use-pro-modal";
 
 const CodePage = () => {
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
   const router = useRouter();
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,7 +52,10 @@ const CodePage = () => {
       setMessages((current) => [...current, userMessage, response.data]);
 
       console.log(response.data, "data");
-    } catch (error) {
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
       console.log(error, "error in sending request");
     } finally {
       router.refresh();
@@ -103,7 +108,6 @@ const CodePage = () => {
               <Loading />
             </div>
           )}
-          s
           {messages.length === 0 && !isLoading && (
             <Empty label="No conversation started" />
           )}
