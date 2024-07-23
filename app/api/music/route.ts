@@ -1,4 +1,5 @@
 import { checkApiLimit, increaseApiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import Replicate from "replicate";
@@ -13,9 +14,10 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { prompt } = body;
 
-    // if (!userId) {
-    //   return new NextResponse("Unauthorized", { status: 401 });
-    // }
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     if (!replicate.auth) {
       return new NextResponse("API key not configured", { status: 500 });
     }
@@ -29,7 +31,9 @@ export async function POST(req: Request) {
     };
 
     const freeTrial = await checkApiLimit();
-    if (!freeTrial) {
+    const isPro = await checkSubscription();
+
+    if (!freeTrial && !isPro) {
       return new NextResponse("Free trial has ended", { status: 403 });
     }
     const response = await replicate.run(
@@ -37,7 +41,9 @@ export async function POST(req: Request) {
       { input }
     );
 
-    await increaseApiLimit();
+    if (!isPro) {
+      await increaseApiLimit();
+    }
     console.log(response);
     return NextResponse.json(response);
   } catch (error) {

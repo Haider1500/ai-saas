@@ -3,6 +3,7 @@ import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import toast from "react-hot-toast";
 
 const settingsUrl = absoluteUrl("/settings");
 export async function GET() {
@@ -52,6 +53,7 @@ export async function GET() {
     return new NextResponse(JSON.stringify({ url: stripeSession.url }));
   } catch (error) {
     console.log("[STRIPE_ERROR]", error);
+    toast.error("Something went wrong");
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

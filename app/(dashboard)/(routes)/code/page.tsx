@@ -6,7 +6,7 @@ import axios from "axios";
 import ReactMarkDown from "react-markdown";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 
-import { CodeIcon, MessageSquareIcon } from "lucide-react";
+import { CodeIcon } from "lucide-react";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
 import { useProModal } from "@/app/hooks/use-pro-modal";
+import toast from "react-hot-toast";
 
 const CodePage = () => {
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
@@ -55,6 +56,8 @@ const CodePage = () => {
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
+      } else {
+        toast.error("Something went wrong");
       }
       console.log(error, "error in sending request");
     } finally {
